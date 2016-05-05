@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Build Me A Budget</string>
+    <string name="load_settings">Enter ID to load previous values</string>
+    <string name="gross_income">Gross Annual Income (before taxes)</string>
+    <string name="user_id">User ID</string>
+    <string name="build">Build</string>
+    <string name="edit">Edit</string>
+    <string name="title_activity_edit_budget">EditBudgetActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
