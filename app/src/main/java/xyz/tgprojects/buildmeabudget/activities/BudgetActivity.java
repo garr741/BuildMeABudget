@@ -31,7 +31,7 @@ public class BudgetActivity extends AppCompatActivity {
         budget = app.getBudget();
 
         toolbar = (Toolbar) findViewById(R.id.budget_toolbar);
-        String title = budget.getAllocatedPercentage() + "% allocated for " + FormatUtils.dollarFormatter(budget.getAnnualIncome()) + " income";
+        String title = budget.getAllocatedPercentage() + "% for " + FormatUtils.dollarFormatter(budget.getAnnualIncome()) + " net income";
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
 

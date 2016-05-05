@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Budget implements Serializable {
+    private long grossIncome;
     private long income;
     private List<Category> categoryList;
 
@@ -20,10 +21,31 @@ public class Budget implements Serializable {
         return instance;
     }
 
+    public long getGrossIncome() {
+        return grossIncome;
+    }
+
+    public void setGrossIncome(long grossIncome) {
+        this.grossIncome = grossIncome;
+        setAnnualIncome(grossIncome);
+    }
+
     public long getAnnualIncome() { return income; }
 
-    public void setAnnualIncome(long annualIncome) {
-        this.income = annualIncome;
+    public void setAnnualIncome(long grossIncome){
+        if (grossIncome < 9225) {
+            this.income =  grossIncome - (long)(grossIncome * .10);
+        } else if (grossIncome < 37450) {
+            this.income = grossIncome - (long)(grossIncome * .15);
+        } else if (grossIncome < 90750) {
+            this.income =  grossIncome - (long)(grossIncome * .25);
+        } else if (grossIncome < 189300) {
+            this.income = grossIncome - (long)(grossIncome * .28);
+        } else if (grossIncome < 411350) {
+            this.income = grossIncome - (long)(grossIncome * .33);
+        } else {
+            this.income = grossIncome - (long)(grossIncome * .35);
+        }
     }
 
     private List<Category> createCategoryList() {

@@ -30,10 +30,10 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.ViewHolder
         Category category = categories.get(position);
         holder.title.setText(category.getName());
         holder.description.setText(category.getDescription());
-        holder.yearly.setText("Yearly " + FormatUtils.dollarFormatter(category.getYearly()));
-        holder.monthly.setText(FormatUtils.dollarFormatter(category.getMonthly()) + " Monthly");
-        holder.biWeekly.setText("Biweekly " + FormatUtils.dollarFormatter(category.getBiWeekly()));
-        holder.weekly.setText(FormatUtils.dollarFormatter(category.getWeekly()) + " Weekly");
+        holder.yearly.setText(FormatUtils.dollarFormatter(category.getYearly()));
+        holder.monthly.setText(FormatUtils.dollarFormatter(category.getMonthly()));
+        holder.biWeekly.setText(FormatUtils.dollarFormatter(category.getBiWeekly()));
+        holder.weekly.setText(FormatUtils.dollarFormatter(category.getWeekly()));
         holder.percentage.setText(FormatUtils.percentFormatter(category.getPercentage()));
     }
 

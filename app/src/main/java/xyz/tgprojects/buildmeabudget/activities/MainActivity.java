@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         if ( id == R.id.build_button ){
             int income = getInputIncome();
             if ( income != 0 ){
-                budget.setAnnualIncome(income);
+                budget.setGrossIncome(income);
                 app.saveBudget(budget);
                 goToBudgetActivity();
             }
