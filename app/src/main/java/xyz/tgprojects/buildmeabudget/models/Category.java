@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Category implements Serializable{
     private String name;
     private String description;
-    private long percentage;
+    private int percentage;
     private long income;
 
     public Category(String name, String description, int percentage, long income) {
@@ -36,7 +36,7 @@ public class Category implements Serializable{
         return percentage;
     }
 
-    public void setPercentage(long percentage) {
+    public void setPercentage(int percentage) {
         this.percentage = percentage;
     }
 

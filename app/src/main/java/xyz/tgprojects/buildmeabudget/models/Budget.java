@@ -23,7 +23,7 @@ public class Budget implements Serializable {
         categoryList = new LinkedList<>();
         categoryList.add(new Category("Housing", "Mortgages, Taxes, Rent, Insurance", 30, income));
         categoryList.add(new Category("Utilities", "Phone, Electricity, Gas, Cable, Internet, Water", 15, income));
-        categoryList.add(new Category("Transporation", "Bus, Uber, Insurance, Gas, Maintenance, Parking", 10, income));
+        categoryList.add(new Category("Transportation", "Bus, Uber, Insurance, Gas, Maintenance, Parking", 10, income));
         categoryList.add(new Category("Food", "Groceries, Personal Care", 10, income));
         categoryList.add(new Category("Personal and Entertainment", "Entertainment, Recreation, Alcohol, Eating Out, gaming, Hair Cuts, Hobbies, Amazon, Netflix, Shopping", 10, income));
         categoryList.add(new Category("Health", "Health Care Premiums, Deductibles, Insurance, Medications", 5, income));

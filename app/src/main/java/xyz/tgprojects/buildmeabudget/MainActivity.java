@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import xyz.tgprojects.buildmeabudget.activities.BudgetActivity;
+import xyz.tgprojects.buildmeabudget.models.Budget;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     EditText incomeEditText;
+    Budget budget;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +42,17 @@ public class MainActivity extends AppCompatActivity {
         if ( id == R.id.build_button ){
             int income = getInputIncome();
             if ( income != 0 ){
-                goToBudgetActivity(income);
+                budget = new Budget(income);
+                goToBudgetActivity(budget);
             }
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void goToBudgetActivity(int income){
+    private void goToBudgetActivity(Budget budget){
         Intent intent = new Intent(this, BudgetActivity.class);
-        intent.putExtra(ANNUAL_INCOME, income);
+        intent.putExtra("budget", budget);
         startActivity(intent);
     }
 

@@ -2,12 +2,17 @@ package xyz.tgprojects.buildmeabudget.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import com.vi.swipenumberpicker.OnValueChangeListener;
+import com.vi.swipenumberpicker.SwipeNumberPicker;
 import java.util.List;
 import xyz.tgprojects.buildmeabudget.R;
+import xyz.tgprojects.buildmeabudget.activities.BudgetActivity;
 import xyz.tgprojects.buildmeabudget.models.Category;
 
 /**
@@ -29,10 +34,42 @@ public class EditBudgetAdapter extends RecyclerView.Adapter<EditBudgetAdapter.Vi
     }
 
     @Override public void onBindViewHolder(EditBudgetAdapter.ViewHolder holder, int position) {
-        Category category = categoryList.get(position);
+        final Category category = categoryList.get(position);
         holder.title.setText(category.getName());
+        holder.title.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override public void afterTextChanged(Editable s) {
+                category.setName(s.toString());
+            }
+        });
         holder.description.setText(category.getDescription());
-        holder.percentage.setText(Long.toString(category.getPercentage()));
+        holder.description.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override public void afterTextChanged(Editable s) {
+                category.setDescription(s.toString());
+            }
+        });
+        holder.percentage.setValue((int) category.getPercentage(), true);
+        holder.percentage.setOnValueChangeListener(new OnValueChangeListener() {
+            @Override public boolean onValueChange(SwipeNumberPicker view, int oldValue, int newValue) {
+                category.setPercentage(newValue);
+                return true;
+            }
+        });
     }
 
     @Override public int getItemCount() {
@@ -44,13 +81,14 @@ public class EditBudgetAdapter extends RecyclerView.Adapter<EditBudgetAdapter.Vi
 
         EditText title;
         EditText description;
-        EditText percentage;
+        SwipeNumberPicker percentage;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (EditText) itemView.findViewById(R.id.edit_budget_card_title);
             description = (EditText) itemView.findViewById(R.id.edit_budget_card_description);
-            percentage = (EditText) itemView.findViewById(R.id.edit_budget_card_percentage);
+            percentage = (SwipeNumberPicker) itemView.findViewById(R.id.number_picker);
         }
     }
 }

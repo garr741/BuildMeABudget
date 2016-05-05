@@ -19,5 +19,7 @@
         </activity>
         <activity android:name=".activities.BudgetActivity">
         </activity>
+        <activity android:name=".activities.EditBudgetActivity">
+        </activity>
     </application>
 </manifest>

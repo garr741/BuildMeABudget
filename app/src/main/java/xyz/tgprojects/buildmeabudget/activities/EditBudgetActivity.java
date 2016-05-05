@@ -6,63 +6,61 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import xyz.tgprojects.buildmeabudget.MainActivity;
 import xyz.tgprojects.buildmeabudget.R;
-import xyz.tgprojects.buildmeabudget.adapters.BudgetAdapter;
+import xyz.tgprojects.buildmeabudget.adapters.EditBudgetAdapter;
 import xyz.tgprojects.buildmeabudget.models.Budget;
-import xyz.tgprojects.buildmeabudget.utils.FormatUtils;
 
-public class BudgetActivity extends AppCompatActivity {
+public class EditBudgetActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    BudgetAdapter budgetAdapter;
+    EditBudgetAdapter adapter;
     Budget budget;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_budget);
+        setContentView(R.layout.activity_edit_budget);
 
         budget = (Budget) getIntent().getSerializableExtra("budget");
 
-        toolbar = (Toolbar) findViewById(R.id.budget_toolbar);
-        String title = budget.getAllocatedPercentage() + "% allocated for " + FormatUtils.dollarFormatter(budget.getAnnualIncome()) + " income";
+        toolbar = (Toolbar) findViewById(R.id.edit_budget_toolbar);
+
+        String title = Integer.toString(budget.getAllocatedPercentage()) + "% allocated";
         toolbar.setTitle(title);
+
         setSupportActionBar(toolbar);
 
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.edit_budget_recycler_view);
         layoutManager = new LinearLayoutManager(this);
-        budgetAdapter = new BudgetAdapter(this, budget.getCategoryList());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(budgetAdapter);
+        adapter = new EditBudgetAdapter(this, budget.getCategoryList());
+        recyclerView.setAdapter(adapter);
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.budget_toolbar, menu);
+        getMenuInflater().inflate(R.menu.edit_budget_toolbar, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if ( id == R.id.edit_button ){
-            goToEditFragment();
+        if ( id == R.id.save_button ){
+            save();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void goToEditFragment() {
-        Intent intent = new Intent(this, EditBudgetActivity.class);
+    public void save(){
+        Intent intent = new Intent(this, BudgetActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("budget", budget);
         startActivity(intent);
     }
-
-
-
-
 }
