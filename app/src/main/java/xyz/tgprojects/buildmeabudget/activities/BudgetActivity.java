@@ -42,6 +42,11 @@ public class BudgetActivity extends AppCompatActivity {
         recyclerView.setAdapter(budgetAdapter);
     }
 
+    @Override protected void onResume() {
+        super.onResume();
+        budget = budget.updateCategories();
+    }
+
     @Override public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.budget_toolbar, menu);
         return super.onCreateOptionsMenu(menu);

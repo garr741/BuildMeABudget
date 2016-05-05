@@ -1,6 +1,7 @@
 package xyz.tgprojects.buildmeabudget.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class Budget implements Serializable {
     }
 
     private List<Category> createCategoryList() {
-        categoryList = new LinkedList<>();
+        categoryList = new ArrayList<>();
         categoryList.add(new Category("Housing", "Mortgages, Taxes, Rent, Insurance", 30, income));
         categoryList.add(new Category("Utilities", "Phone, Electricity, Gas, Cable, Internet, Water", 15, income));
         categoryList.add(new Category("Transportation", "Bus, Uber, Insurance, Gas, Maintenance, Parking", 10, income));
@@ -54,6 +55,18 @@ public class Budget implements Serializable {
             return createCategoryList();
         }
         return categoryList;
+    }
+
+    public Budget updateCategories(){
+        int i=0;
+        for (Category category : categoryList){
+            int percent = category.getPercentage();
+            String description = category.getDescription();
+            String name = category.getName();
+            categoryList.set(i, new Category(name, description, percent, income));
+            i++;
+        }
+        return this;
     }
 
     public long getMonthlyIncome() {
