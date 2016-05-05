@@ -31,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         incomeEditText = (EditText) findViewById(R.id.main_activity_income_edittext);
+        if ( budget.getGrossIncome() != 0 ){
+            incomeEditText.setText(String.valueOf(budget.getGrossIncome()));
+        }
 
         setSupportActionBar(toolbar);
 
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if ( id == R.id.build_button ){
-            int income = getInputIncome();
+            long income = getInputIncome();
             if ( income != 0 ){
                 budget.setGrossIncome(income);
                 app.saveBudget(budget);
@@ -67,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private int getInputIncome(){
+    private long getInputIncome(){
         String income = incomeEditText.getText().toString();
         if ( !income.isEmpty() ){
-            return Integer.parseInt(income);
+            return Long.valueOf(income);
         }
         return 0;
     }

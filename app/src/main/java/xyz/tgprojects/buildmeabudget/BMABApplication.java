@@ -12,8 +12,14 @@ public class BMABApplication extends Application {
 
     @Override public void onCreate() {
         super.onCreate();
-        budget = Budget.getInstance();
         mPrefs = this.getSharedPreferences("SharedPrefs", MODE_PRIVATE);
+
+        if ( mPrefs.contains("budget") ){
+            budget = getBudget();
+        } else {
+            budget = Budget.getInstance();
+        }
+
         saveBudget(budget);
     }
 

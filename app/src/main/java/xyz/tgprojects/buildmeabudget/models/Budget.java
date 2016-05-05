@@ -102,4 +102,9 @@ public class Budget implements Serializable {
     public long getWeeklyIncome() {
         return getBiWeeklyincome() / 2;
     }
+
+    public Budget reset(){
+        instance = null;
+        return getInstance();
+    }
 }

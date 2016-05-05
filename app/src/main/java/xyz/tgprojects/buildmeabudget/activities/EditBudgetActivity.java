@@ -58,12 +58,23 @@ public class EditBudgetActivity extends AppCompatActivity {
             app.saveBudget(budget);
             save();
         }
+        if ( id == R.id.reset_button ){
+            //prompt for confirmation to reset entire budget and return to MainActivity
+            resetBudget();
+        }
         return super.onOptionsItemSelected(item);
     }
 
     public void save(){
         Intent intent = new Intent(this, BudgetActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    public void resetBudget(){
+        app.saveBudget(budget.reset());
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 }
