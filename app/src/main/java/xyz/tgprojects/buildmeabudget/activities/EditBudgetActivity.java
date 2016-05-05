@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import xyz.tgprojects.buildmeabudget.BMABApplication;
 import xyz.tgprojects.buildmeabudget.R;
 import xyz.tgprojects.buildmeabudget.adapters.EditBudgetAdapter;
 import xyz.tgprojects.buildmeabudget.models.Budget;
@@ -20,12 +21,14 @@ public class EditBudgetActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     EditBudgetAdapter adapter;
     Budget budget;
+    BMABApplication app;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_budget);
 
-        budget = (Budget) getIntent().getSerializableExtra("budget");
+        app = (BMABApplication) getApplication();
+        budget = app.getBudget();
 
         toolbar = (Toolbar) findViewById(R.id.edit_budget_toolbar);
 
@@ -52,6 +55,7 @@ public class EditBudgetActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if ( id == R.id.save_button ){
+            app.saveBudget(budget);
             save();
         }
         return super.onOptionsItemSelected(item);
@@ -60,7 +64,6 @@ public class EditBudgetActivity extends AppCompatActivity {
     public void save(){
         Intent intent = new Intent(this, BudgetActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("budget", budget);
         startActivity(intent);
     }
 }

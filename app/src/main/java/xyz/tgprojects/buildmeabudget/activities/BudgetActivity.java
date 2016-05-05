@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import xyz.tgprojects.buildmeabudget.MainActivity;
+import xyz.tgprojects.buildmeabudget.BMABApplication;
 import xyz.tgprojects.buildmeabudget.R;
 import xyz.tgprojects.buildmeabudget.adapters.BudgetAdapter;
 import xyz.tgprojects.buildmeabudget.models.Budget;
@@ -21,12 +21,14 @@ public class BudgetActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     BudgetAdapter budgetAdapter;
     Budget budget;
+    BMABApplication app;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget);
 
-        budget = (Budget) getIntent().getSerializableExtra("budget");
+        app = (BMABApplication) getApplication();
+        budget = app.getBudget();
 
         toolbar = (Toolbar) findViewById(R.id.budget_toolbar);
         String title = budget.getAllocatedPercentage() + "% allocated for " + FormatUtils.dollarFormatter(budget.getAnnualIncome()) + " income";
@@ -58,7 +60,6 @@ public class BudgetActivity extends AppCompatActivity {
 
     private void goToEditFragment() {
         Intent intent = new Intent(this, EditBudgetActivity.class);
-        intent.putExtra("budget", budget);
         startActivity(intent);
     }
 

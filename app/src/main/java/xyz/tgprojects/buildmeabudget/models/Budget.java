@@ -6,17 +6,23 @@ import java.util.List;
 
 public class Budget implements Serializable {
     private long income;
-    private int allocatedPercentage;
     private List<Category> categoryList;
 
-    public Budget(long income) {
-        this.income = income;
+    private static Budget instance;
+
+    public Budget(){}
+
+    public static Budget getInstance(){
+        if ( instance == null ){
+            return new Budget();
+        }
+        return instance;
     }
 
     public long getAnnualIncome() { return income; }
 
     public void setAnnualIncome(long annualIncome) {
-        this.income = income;
+        this.income = annualIncome;
     }
 
     private List<Category> createCategoryList() {
