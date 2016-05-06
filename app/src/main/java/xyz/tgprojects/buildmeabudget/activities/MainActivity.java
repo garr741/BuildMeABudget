@@ -1,27 +1,26 @@
 package xyz.tgprojects.buildmeabudget.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.TextView;
+import com.autofit.et.lib.AutoFitEditText;
 import xyz.tgprojects.buildmeabudget.BMABApplication;
 import xyz.tgprojects.buildmeabudget.R;
 import xyz.tgprojects.buildmeabudget.models.Budget;
 
-public class MainActivity extends AppCompatActivity {
-
-    public static final String ANNUAL_INCOME = "Annual Income";
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     Toolbar toolbar;
-    EditText incomeEditText;
+    AutoFitEditText incomeEditText;
     Budget budget;
-    SharedPreferences sharedPreferences;
     BMABApplication app;
+    FloatingActionButton build;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +30,14 @@ public class MainActivity extends AppCompatActivity {
         budget = app.getBudget();
 
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        incomeEditText = (EditText) findViewById(R.id.main_activity_income_edittext);
+        setUpToolbar();
+        incomeEditText = (AutoFitEditText) findViewById(R.id.main_activity_income_edittext);
+        build = (FloatingActionButton) findViewById(R.id.main_activity_build_button);
+        setUpBuildButton();
+
         if ( budget.getGrossIncome() != 0 ){
             incomeEditText.setText(String.valueOf(budget.getGrossIncome()));
         }
-
-        setSupportActionBar(toolbar);
-
-        toolbar.setTitle(R.string.app_name);
     }
 
     @Override protected void onResume() {
@@ -54,19 +53,24 @@ public class MainActivity extends AppCompatActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if ( id == R.id.build_button ){
-            long income = getInputIncome();
-            if ( income != 0 ){
-                budget.setGrossIncome(income);
-                app.saveBudget(budget);
-                goToBudgetActivity();
-            }
-        }
         if ( id == R.id.reset_button ){
             resetBudget();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setUpToolbar(){
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbarTitle.setTextSize(20f);
+    }
+
+    public void setUpBuildButton(){
+        build.setOnClickListener(this);
+        build.setBackgroundColor(getResources().getColor(R.color.accent));
+
     }
 
     private void goToBudgetActivity(){
@@ -78,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
         String income = incomeEditText.getText().toString();
         if ( !income.isEmpty() ){
             return Long.valueOf(income);
-        } else {
-            Snackbar.make(findViewById(android.R.id.content), R.string.insert_value, Snackbar.LENGTH_SHORT).show();
         }
         return 0;
     }
@@ -89,5 +91,17 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.main_activity_build_button:
+                long income = getInputIncome();
+                if ( income != 0 ){
+                    budget.setGrossIncome(income);
+                    app.saveBudget(budget);
+                    goToBudgetActivity();
+                }
+        }
     }
 }
