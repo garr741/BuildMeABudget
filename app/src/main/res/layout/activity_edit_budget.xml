@@ -5,7 +5,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="xyz.tgprojects.buildmeabudget.activities.EditBudgetActivity">
+        tools:context="xyz.tgprojects.buildmeabudget.activities.EditBudgetActivity"
+        android:background="@color/primary_light">
 
     <include
         android:id="@+id/edit_budget_toolbar"
