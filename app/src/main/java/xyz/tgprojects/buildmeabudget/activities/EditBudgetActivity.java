@@ -40,6 +40,7 @@ public class EditBudgetActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.edit_budget_recycler_view);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         adapter = new EditBudgetAdapter(this, budget.getCategoryList());
         recyclerView.setAdapter(adapter);
     }

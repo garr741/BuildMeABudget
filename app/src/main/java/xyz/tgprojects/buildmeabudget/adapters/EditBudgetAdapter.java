@@ -52,7 +52,7 @@ public class EditBudgetAdapter extends RecyclerView.Adapter<EditBudgetAdapter.Vi
         holder.description.setText(category.getDescription());
         holder.description.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                
             }
 
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {

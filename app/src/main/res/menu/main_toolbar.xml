@@ -7,4 +7,8 @@
             android:orderInCategory="100"
             android:title="@string/build"
             app:showAsAction="ifRoom" />
+    <item android:id="@+id/reset_button"
+        android:orderInCategory="200"
+        android:title="@string/reset"
+        app:showAsAction="never"/>
 </menu>

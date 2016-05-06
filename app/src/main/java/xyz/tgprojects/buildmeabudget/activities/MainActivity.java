@@ -2,6 +2,7 @@ package xyz.tgprojects.buildmeabudget.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -61,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 goToBudgetActivity();
             }
         }
+        if ( id == R.id.reset_button ){
+            resetBudget();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -74,7 +78,16 @@ public class MainActivity extends AppCompatActivity {
         String income = incomeEditText.getText().toString();
         if ( !income.isEmpty() ){
             return Long.valueOf(income);
+        } else {
+            Snackbar.make(findViewById(android.R.id.content), R.string.insert_value, Snackbar.LENGTH_SHORT).show();
         }
         return 0;
+    }
+
+    public void resetBudget(){
+        app.saveBudget(budget.reset());
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
