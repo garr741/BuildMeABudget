@@ -36,47 +36,15 @@ public class EditBudgetAdapter extends RecyclerView.Adapter<EditBudgetAdapter.Vi
     @Override public void onBindViewHolder(EditBudgetAdapter.ViewHolder holder, int position) {
         final Category category = categoryList.get(position);
         holder.title.setText(category.getName());
-        holder.title.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override public void afterTextChanged(Editable s) {
-                category.setName(s.toString());
-            }
-        });
         holder.description.setText(category.getDescription());
-        holder.description.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                
-            }
-
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override public void afterTextChanged(Editable s) {
-                category.setDescription(s.toString());
-            }
-        });
         holder.percentage.setValue((int) category.getPercentage(), true);
-        holder.percentage.setOnValueChangeListener(new OnValueChangeListener() {
-            @Override public boolean onValueChange(SwipeNumberPicker view, int oldValue, int newValue) {
-                category.setPercentage(newValue);
-                return true;
-            }
-        });
     }
 
     @Override public int getItemCount() {
         return categoryList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements TextWatcher, OnValueChangeListener{
 
 
         EditText title;
@@ -87,8 +55,35 @@ public class EditBudgetAdapter extends RecyclerView.Adapter<EditBudgetAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
             title = (EditText) itemView.findViewById(R.id.edit_budget_card_title);
+            title.addTextChangedListener(this);
             description = (EditText) itemView.findViewById(R.id.edit_budget_card_description);
+            description.addTextChangedListener(this);
             percentage = (SwipeNumberPicker) itemView.findViewById(R.id.number_picker);
+            percentage.setOnValueChangeListener(this);
+        }
+
+        @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override public void afterTextChanged(Editable s) {
+            int position = getAdapterPosition();
+            Category category = categoryList.get(position);
+            if ( s == title.getEditableText()){
+                category.setName(s.toString());
+            } else if (s == description.getEditableText()){
+                category.setDescription(s.toString());
+            }
+        }
+
+        @Override public boolean onValueChange(SwipeNumberPicker view, int oldValue, int newValue) {
+            Category category = categoryList.get(getAdapterPosition());
+            category.setPercentage(newValue);
+            return true;
         }
     }
 }
