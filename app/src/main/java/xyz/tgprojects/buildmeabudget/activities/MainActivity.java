@@ -4,14 +4,19 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import com.autofit.et.lib.AutoFitEditText;
+import java.util.LinkedList;
+import java.util.List;
 import xyz.tgprojects.buildmeabudget.BMABApplication;
 import xyz.tgprojects.buildmeabudget.R;
+import xyz.tgprojects.buildmeabudget.adapters.NumberAdapter;
 import xyz.tgprojects.buildmeabudget.models.Budget;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -22,6 +27,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     BMABApplication app;
     FloatingActionButton build;
 
+    RecyclerView buttonRecyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    NumberAdapter numberAdapter;
+
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +40,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setUpToolbar();
+
         incomeEditText = (AutoFitEditText) findViewById(R.id.main_activity_income_edittext);
+        setUpEditText();
+
         build = (FloatingActionButton) findViewById(R.id.main_activity_build_button);
         setUpBuildButton();
 
+        buttonRecyclerView = (RecyclerView) findViewById(R.id.number_recyclerview);
+        layoutManager = new GridLayoutManager(this, 3);
+        buttonRecyclerView.setLayoutManager(layoutManager);
+
+
+        List<String> values = getNumberList();
+
+        numberAdapter = new NumberAdapter(this, values);
+
+        buttonRecyclerView.setAdapter(numberAdapter);
         if ( budget.getGrossIncome() != 0 ){
             incomeEditText.setText(String.valueOf(budget.getGrossIncome()));
         }
@@ -70,7 +92,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setUpBuildButton(){
         build.setOnClickListener(this);
         build.setBackgroundColor(getResources().getColor(R.color.accent));
+    }
 
+    public void setUpEditText(){
+        incomeEditText.setSingleLine(true);
+    }
+
+    public List<String> getNumberList(){
+        List<String> results = new LinkedList<>();
+        for ( int i=1; i<10; i++){
+            String a = Integer.toString(i);
+            results.add(a);
+        }
+        results.add("");
+        results.add("0");
+        results.add("");
+        return results;
     }
 
     private void goToBudgetActivity(){

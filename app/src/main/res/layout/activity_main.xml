@@ -4,7 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".activities.MainActivity"
         android:background="@color/primary_light"
         >
@@ -23,10 +22,18 @@
             android:layout_below="@id/main_toolbar"
             android:inputType="number"
             android:maxLength="6"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="100dp"
+            android:text="@string/zero_dollars"
             android:textColor="@color/primary_text"
             android:cursorVisible="false"
-            android:textSize="50sp" />
+            android:textSize="50sp"
+            android:layout_centerInParent="true"/>
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/number_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_below="@id/main_activity_income_edittext"/>
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/main_activity_build_button"
             android:layout_width="wrap_content"
