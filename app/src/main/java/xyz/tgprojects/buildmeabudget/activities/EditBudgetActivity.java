@@ -33,7 +33,7 @@ public class EditBudgetActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.edit_budget_toolbar);
 
         String title = Integer.toString(budget.getAllocatedPercentage()) + "% allocated";
-        toolbar.setTitle(title);
+        toolbar.setTitle("");
 
         setSupportActionBar(toolbar);
 

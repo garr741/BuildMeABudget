@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Build Me A Budget</string>
+    <string name="app_name">SimBud</string>
     <string name="load_settings">Enter ID to load previous values</string>
     <string name="gross_income">Gross Annual Income (before taxes)</string>
     <string name="user_id">User ID</string>

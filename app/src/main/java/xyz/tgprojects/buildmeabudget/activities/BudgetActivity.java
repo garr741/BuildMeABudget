@@ -32,7 +32,7 @@ public class BudgetActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.budget_toolbar);
         String title = budget.getAllocatedPercentage() + "% for " + FormatUtils.dollarFormatter(budget.getAnnualIncome()) + " net income";
-        toolbar.setTitle(title);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);

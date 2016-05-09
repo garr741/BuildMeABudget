@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import com.autofit.et.lib.AutoFitEditText;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,8 +17,9 @@ import xyz.tgprojects.buildmeabudget.BMABApplication;
 import xyz.tgprojects.buildmeabudget.R;
 import xyz.tgprojects.buildmeabudget.adapters.NumberAdapter;
 import xyz.tgprojects.buildmeabudget.models.Budget;
+import xyz.tgprojects.buildmeabudget.utils.FormatUtils;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NumberAdapter.OnButtonClickedListener{
 
     Toolbar toolbar;
     AutoFitEditText incomeEditText;
@@ -31,12 +31,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerView.LayoutManager layoutManager;
     NumberAdapter numberAdapter;
 
+    Long actualIncome;
+
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         app = (BMABApplication) getApplication();
         budget = app.getBudget();
+
+        actualIncome = budget.getGrossIncome();
 
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setUpToolbar();
@@ -54,12 +58,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         List<String> values = getNumberList();
 
-        numberAdapter = new NumberAdapter(this, values);
+        numberAdapter = new NumberAdapter(this, values, this);
+
 
         buttonRecyclerView.setAdapter(numberAdapter);
-        if ( budget.getGrossIncome() != 0 ){
-            incomeEditText.setText(String.valueOf(budget.getGrossIncome()));
-        }
     }
 
     @Override protected void onResume() {
@@ -85,16 +87,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setUpToolbar(){
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-        toolbarTitle.setTextSize(20f);
     }
 
     public void setUpBuildButton(){
         build.setOnClickListener(this);
-        build.setBackgroundColor(getResources().getColor(R.color.accent));
+        build.setImageDrawable(getResources().getDrawable(R.drawable.money));
     }
 
     public void setUpEditText(){
+        incomeEditText.setText(FormatUtils.dollarFormatter(budget.getGrossIncome()));
         incomeEditText.setSingleLine(true);
     }
 
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private long getInputIncome(){
-        String income = incomeEditText.getText().toString();
+        String income = FormatUtils.stripClean(incomeEditText.getText().toString());
         if ( !income.isEmpty() ){
             return Long.valueOf(income);
         }
@@ -140,5 +141,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     goToBudgetActivity();
                 }
         }
+    }
+
+    @Override public void onNumberButtonClicked(int position) {
+        String newCurrent;
+        String current = FormatUtils.stripClean(incomeEditText.getText().toString());
+        if ( position == 11 && budget.getGrossIncome() != 0 ){
+            newCurrent = FormatUtils.backspace(current);
+        } else if ( current.length() >= 6 ){
+            return;
+        } else {
+            Long id = numberAdapter.getItemId(position);
+            String value = Long.toString(id);
+            newCurrent = FormatUtils.textAppend(current, value);
+        }
+        long newValue = Long.valueOf(newCurrent);
+        String latestValue = FormatUtils.dollarFormatter(newValue);
+        incomeEditText.setText(latestValue);
     }
 }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.MainActivity"
-        android:background="@color/primary_light"
+        android:background="@color/primary_dark"
         >
     <include
             android:id="@+id/main_toolbar"
@@ -14,16 +15,15 @@
             android:id="@+id/main_activity_income_edittext"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:background="@color/primary_light"
+            android:background="@color/primary_dark"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center_vertical|center_horizontal"
             android:isScrollContainer="false"
             android:layout_below="@id/main_toolbar"
             android:inputType="number"
-            android:maxLength="6"
+            android:maxLength="8"
             android:layout_marginTop="100dp"
-            android:text="@string/zero_dollars"
             android:textColor="@color/primary_text"
             android:cursorVisible="false"
             android:textSize="50sp"
@@ -40,5 +40,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_medium"
             android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            />
 </RelativeLayout>

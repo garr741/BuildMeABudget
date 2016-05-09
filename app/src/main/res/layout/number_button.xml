@@ -14,7 +14,7 @@
             android:layout_gravity="center_horizontal"/>
     <View
             android:id="@+id/horizontal_rule"
-            android:layout_width="25dp"
+            android:layout_width="100dp"
             android:layout_centerHorizontal="true"
             android:layout_height="1dip"
             android:background="#000000"
