@@ -41,6 +41,9 @@ public class NumberAdapter extends RecyclerView.Adapter<NumberAdapter.ViewHolder
     }
 
     @Override public long getItemId(int position) {
+        if ( position == 9 || position == 11 ){
+            return super.getItemId(position);
+        }
         String value = values.get(position);
         return Long.valueOf(value);
     }

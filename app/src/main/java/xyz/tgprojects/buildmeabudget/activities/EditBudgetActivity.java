@@ -9,6 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import org.w3c.dom.Text;
 import xyz.tgprojects.buildmeabudget.BMABApplication;
 import xyz.tgprojects.buildmeabudget.R;
 import xyz.tgprojects.buildmeabudget.adapters.EditBudgetAdapter;
@@ -32,8 +35,7 @@ public class EditBudgetActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.edit_budget_toolbar);
 
-        String title = Integer.toString(budget.getAllocatedPercentage()) + "% allocated";
-        toolbar.setTitle("");
+         setUpToolbar();
 
         setSupportActionBar(toolbar);
 
@@ -64,6 +66,13 @@ public class EditBudgetActivity extends AppCompatActivity {
             resetBudget();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setUpToolbar(){
+        TextView textView = (TextView) findViewById(R.id.toolbar_title);
+        textView.setVisibility(View.GONE);
+        String title = Integer.toString(budget.getAllocatedPercentage()) + "% allocated";
+        toolbar.setTitle(title);
     }
 
     public void save(){

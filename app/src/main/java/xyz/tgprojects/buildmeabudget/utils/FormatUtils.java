@@ -1,7 +1,6 @@
 package xyz.tgprojects.buildmeabudget.utils;
 
 import android.util.Log;
-import android.util.StringBuilderPrinter;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -27,6 +26,7 @@ public class FormatUtils {
     }
 
     public static String backspace(String input){
-        return input.substring(0, input.length()-1);
+        String result = input.substring(0, input.length()-1);
+        return result;
     }
 }

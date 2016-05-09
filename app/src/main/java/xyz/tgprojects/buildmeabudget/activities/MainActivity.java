@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setUpBuildButton(){
         build.setOnClickListener(this);
-        build.setImageDrawable(getResources().getDrawable(R.drawable.money));
+        build.setImageDrawable(getResources().getDrawable(R.drawable.dollar_sign));
     }
 
     public void setUpEditText(){
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override public void onNumberButtonClicked(int position) {
         String newCurrent;
         String current = FormatUtils.stripClean(incomeEditText.getText().toString());
-        if ( position == 11 && budget.getGrossIncome() != 0 ){
+        if ( position == 11 ){
             newCurrent = FormatUtils.backspace(current);
         } else if ( current.length() >= 6 ){
             return;
@@ -155,8 +155,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String value = Long.toString(id);
             newCurrent = FormatUtils.textAppend(current, value);
         }
-        long newValue = Long.valueOf(newCurrent);
-        String latestValue = FormatUtils.dollarFormatter(newValue);
-        incomeEditText.setText(latestValue);
+        if ( !newCurrent.isEmpty() ) {
+            long newValue = Long.valueOf(newCurrent);
+            String latestValue = FormatUtils.dollarFormatter(newValue);
+            incomeEditText.setText(latestValue);
+        } else {
+            incomeEditText.setText(getResources().getString(R.string.zero_dollars));
+        }
     }
 }
