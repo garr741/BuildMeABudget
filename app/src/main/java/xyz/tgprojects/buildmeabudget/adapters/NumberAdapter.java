@@ -2,7 +2,9 @@ package xyz.tgprojects.buildmeabudget.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -62,7 +64,7 @@ public class NumberAdapter extends RecyclerView.Adapter<NumberAdapter.ViewHolder
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener {
 
         public Button button;
         public View view;
@@ -72,11 +74,24 @@ public class NumberAdapter extends RecyclerView.Adapter<NumberAdapter.ViewHolder
             button = (Button) itemView.findViewById(R.id.number_button);
             view = itemView.findViewById(R.id.horizontal_rule);
             button.setOnClickListener(this);
+            button.setOnTouchListener(this);
         }
 
         @Override public void onClick(View v) {
             int position = getAdapterPosition();
             onButtonClicked(position);
+        }
+
+        @Override public boolean onTouch(View v, MotionEvent event) {
+            if ( event.getAction() == MotionEvent.ACTION_DOWN){
+                //button.setTextColor(context.getResources().getColor(R.color.white));
+                //view.setBackgroundColor(context.getResources().getColor(R.color.white));
+            }
+            if ( event.getAction() == MotionEvent.ACTION_UP){
+                //button.setTextColor(context.getResources().getColor(R.color.primary_text));
+                //view.setBackgroundColor(context.getResources().getColor(R.color.black));
+            }
+            return false;
         }
     }
 }
