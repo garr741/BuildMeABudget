@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import xyz.tgprojects.buildmeabudget.BMABApplication;
 import xyz.tgprojects.buildmeabudget.R;
 import xyz.tgprojects.buildmeabudget.adapters.BudgetAdapter;
@@ -31,8 +33,7 @@ public class BudgetActivity extends AppCompatActivity {
         budget = app.getBudget();
 
         toolbar = (Toolbar) findViewById(R.id.budget_toolbar);
-        String title = budget.getAllocatedPercentage() + "% for " + FormatUtils.dollarFormatter(budget.getAnnualIncome()) + " net income";
-        toolbar.setTitle(title);
+        setUpToolbar();
         setSupportActionBar(toolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -60,6 +61,13 @@ public class BudgetActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setUpToolbar(){
+        String title = budget.getAllocatedPercentage() + "% for " + FormatUtils.dollarFormatter(budget.getAnnualIncome()) + " net income";
+        toolbar.setTitle(title);
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbarTitle.setVisibility(View.GONE);
     }
 
 
