@@ -62,7 +62,6 @@ public class EditBudgetActivity extends AppCompatActivity {
             save();
         }
         if ( id == R.id.reset_button ){
-            //prompt for confirmation to reset entire budget and return to MainActivity
             resetBudget();
         }
         return super.onOptionsItemSelected(item);
