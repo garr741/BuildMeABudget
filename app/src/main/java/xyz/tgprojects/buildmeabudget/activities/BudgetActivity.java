@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -126,6 +127,12 @@ public class BudgetActivity extends AppCompatActivity {
         pieData.setValueFormatter(new PercentFormatter());
         pieData.setValueTextSize(11f);
         pieData.setValueTextColor(Color.WHITE);
+
+        Legend legend = pieChart.getLegend();
+
+        legend.setWordWrapEnabled(true);
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
 
         pieChart.highlightValues(null);
         pieChart.setDescription("");
