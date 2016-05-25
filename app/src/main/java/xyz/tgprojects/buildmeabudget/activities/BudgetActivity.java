@@ -38,8 +38,6 @@ public class BudgetActivity extends AppCompatActivity {
     Budget budget;
     BMABApplication app;
 
-    PieChart pieChart;
-
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +45,8 @@ public class BudgetActivity extends AppCompatActivity {
 
         app = (BMABApplication) getApplication();
         budget = app.getBudget();
-        pieChart = (PieChart) findViewById(R.id.budget_pie_chart);
-        buildChartData(pieChart);
+
+
 
         toolbar = (Toolbar) findViewById(R.id.budget_toolbar);
         setUpToolbar();
@@ -56,7 +54,7 @@ public class BudgetActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         layoutManager = new LinearLayoutManager(this);
-        budgetAdapter = new BudgetAdapter(this, budget.getCategoryList());
+        budgetAdapter = new BudgetAdapter(this, budget.getCategoryList(), budget);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(budgetAdapter);
     }
@@ -94,55 +92,6 @@ public class BudgetActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void buildChartData(PieChart pieChart){
-        List<Entry> entries = new ArrayList<>();
-        List<String> titles = new ArrayList<>();
-        int i=0;
-        for (Category category: budget.getCategoryList()) {
-            entries.add(new Entry(category.getPercentage(), i++));
-            titles.add(category.getName());
-        }
-
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-
-        int[] MATERIAL_COLORS = {
-                Color.rgb(211,47,47), Color.rgb(194,24,91), Color.rgb(123,31,162), Color.rgb(81,45,168),
-                Color.rgb(48,63,159), Color.rgb(2,136,209), Color.rgb(0,151,167),
-                Color.rgb(0,121,107), Color.rgb(56,142,60), Color.rgb(104,159,56), Color.rgb(175,180,43),
-                Color.rgb(251,192,45), Color.rgb(255,160,0), Color.rgb(245,124,0), Color.rgb(230,74,25)
-        };
-
-        for (int c : MATERIAL_COLORS){
-            colors.add(c);
-            Collections.shuffle(colors);
-        }
-
-        colors.add(ColorTemplate.getHoloBlue());
-
-        PieDataSet pieDataSet = new PieDataSet(entries, "Budget");
-        pieDataSet.setColors(colors);
-        pieDataSet.setSliceSpace(3f);
-        pieDataSet.setSelectionShift(5f);
-        PieData pieData = new PieData(titles, pieDataSet);
-        pieData.setValueFormatter(new PercentFormatter());
-        pieData.setValueTextSize(11f);
-        pieData.setValueTextColor(Color.WHITE);
-
-        Legend legend = pieChart.getLegend();
-
-        legend.setWordWrapEnabled(true);
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
-
-        pieChart.highlightValues(null);
-        pieChart.setDescription("");
-        pieChart.setCenterText("Budget");
-        pieChart.setDrawSliceText(false);
-        pieChart.setDrawSlicesUnderHole(false);
-        pieChart.setUsePercentValues(false);
-        pieChart.setHoleColor(getResources().getColor(R.color.primary_dark));
-        pieChart.setData(pieData);
-    }
 
 
 
