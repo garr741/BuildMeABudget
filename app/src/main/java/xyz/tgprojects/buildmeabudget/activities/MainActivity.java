@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextSwitcher;
 import com.autofit.et.lib.AutoFitEditText;
 import java.util.LinkedList;
 import java.util.List;
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setUpEditText(){
         incomeEditText.setText(FormatUtils.dollarFormatter(budget.getGrossIncome()));
         incomeEditText.setSingleLine(true);
+
     }
 
     public List<String> getNumberList(){

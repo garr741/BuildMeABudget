@@ -5,6 +5,7 @@
         android:layout_height="wrap_content"
         android:background="@color/primary_dark"
         android:elevation="0dp"
+        style="@style/AppTheme"
         >
     <TextView
             android:id="@+id/toolbar_title"
@@ -13,5 +14,6 @@
             android:layout_gravity="center"
             android:textSize="22sp"
             android:text="@string/app_name"
+            android:textColor="@color/white"
             />
 </android.support.v7.widget.Toolbar>
