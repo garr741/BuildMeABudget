@@ -24,11 +24,39 @@
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+            <FrameLayout
+                    android:id="@+id/category_card_fab_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    >
+
+                <android.support.design.widget.FloatingActionButton
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/category_card_fab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="0dp"
+                        app:borderWidth="0dp"
+                        />
+                <TextView
+                        android:id="@+id/fab_textview"
+                        android:elevation="7dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:textSize="22sp"
+                        android:textIsSelectable="false"
+                        />
+            </FrameLayout>
             <TextView
                     android:id="@+id/category_card_title_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="22sp"
+                    android:layout_toEndOf="@id/category_card_fab_area"
+                    android:paddingLeft="@dimen/margin_medium"
                     android:text="Housing"/>
             <TextView
                     android:id="@+id/category_card_percentage"
@@ -42,7 +70,9 @@
                     android:id="@+id/catergory_card_description_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin_medium"
                     android:layout_below="@id/category_card_title_textview"
+                    android:layout_toEndOf="@id/category_card_fab_area"
                     android:text="This is a description of the housing card"
                     />
             <LinearLayout

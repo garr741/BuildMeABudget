@@ -10,6 +10,7 @@ public class Category implements Serializable{
     private String description;
     private int percentage;
     private long income;
+    private int color;
 
     public Category(String name, String description, int percentage, long income) {
         this.name = name;
@@ -58,5 +59,13 @@ public class Category implements Serializable{
 
     public long getWeekly() {
         return getBiWeekly()/2;
+    }
+
+    public void setColor(int color){
+        this.color = color;
+    }
+
+    public int getColor(){
+        return color;
     }
 }

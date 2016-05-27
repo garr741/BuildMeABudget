@@ -1,7 +1,9 @@
 package xyz.tgprojects.buildmeabudget.adapters;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,16 +46,20 @@ public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Category category = categories.get(position);
         if ( holder instanceof CardViewHolder ) {
+            Category category = categories.get(position-1);
             buildCardView((CardViewHolder) holder, category);
         } else {
             buildChartView((BudgetViewHolder) holder);
         }
     }
 
+    @Override public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
     @Override public int getItemCount() {
-        return categories.size();
+        return categories.size() + 1;
     }
 
     @Override public int getItemViewType(int position) {
@@ -71,6 +77,8 @@ public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.biWeekly.setText(FormatUtils.dollarFormatter(category.getBiWeekly()));
         holder.weekly.setText(FormatUtils.dollarFormatter(category.getWeekly()));
         holder.percentage.setText(FormatUtils.percentFormatter(category.getPercentage()));
+        holder.button.setBackgroundTintList(ColorStateList.valueOf(category.getColor()));
+        holder.fabText.setText(category.getName().substring(0,1));
     }
 
     public void buildChartView(BudgetViewHolder holder){
@@ -81,10 +89,6 @@ public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         List<Entry> entries = new ArrayList<>();
         List<String> titles = new ArrayList<>();
         int i=0;
-        for (Category category: budget.getCategoryList()) {
-            entries.add(new Entry(category.getPercentage(), i++));
-            titles.add(category.getName());
-        }
 
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
@@ -97,7 +101,12 @@ public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         for (int c : MATERIAL_COLORS){
             colors.add(c);
-            Collections.shuffle(colors);
+        }
+
+        for (Category category: budget.getCategoryList()) {
+            entries.add(new Entry(category.getPercentage(), i));
+            titles.add(category.getName());
+            category.setColor(MATERIAL_COLORS[i++]);
         }
 
         colors.add(ColorTemplate.getHoloBlue());
@@ -136,6 +145,8 @@ public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView biWeekly;
         TextView weekly;
         TextView percentage;
+        FloatingActionButton button;
+        TextView fabText;
 
         public CardViewHolder(View itemView) {
             super(itemView);
@@ -146,6 +157,8 @@ public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             biWeekly = (TextView) itemView.findViewById(R.id.category_card_income_biweekly);
             weekly = (TextView) itemView.findViewById(R.id.category_card_income_weekly);
             percentage = (TextView) itemView.findViewById(R.id.category_card_percentage);
+            button = (FloatingActionButton) itemView.findViewById(R.id.category_card_fab);
+            fabText = (TextView) itemView.findViewById(R.id.fab_textview);
         }
     }
 
