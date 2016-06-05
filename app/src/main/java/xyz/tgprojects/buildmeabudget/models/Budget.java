@@ -46,6 +46,8 @@ public class Budget implements Serializable {
         } else {
             this.income = grossIncome - (long)(grossIncome * .35);
         }
+
+        this.income = income - (long)(income*.033);
     }
 
     private List<Category> createCategoryList() {
@@ -54,7 +56,7 @@ public class Budget implements Serializable {
         categoryList.add(new Category("Utilities", "Phone, Electricity, Gas, Cable, Internet, Water", 15, income));
         categoryList.add(new Category("Transportation", "Bus, Uber, Insurance, Gas, Maintenance, Parking", 10, income));
         categoryList.add(new Category("Food", "Groceries, Personal Care", 10, income));
-        categoryList.add(new Category("Entertainment", "Entertainment, Recreation, Alcohol, Eating Out, gaming, Hair Cuts, Hobbies, Amazon, Netflix, Shopping", 10, income));
+        categoryList.add(new Category("Entertainment", "Recreation, Alcohol, Eating Out, gaming, Hair Cuts, Hobbies, Amazon, Shopping", 10, income));
         categoryList.add(new Category("Health", "Health Care Premiums, Deductibles, Insurance, Medications", 5, income));
         categoryList.add(new Category("Savings", "Savings, Emergency Funds, Retirement, Investments", 10, income));
         categoryList.add(new Category("Debts", "Loans, Credit Cards, Medical Bills", 10, income));
