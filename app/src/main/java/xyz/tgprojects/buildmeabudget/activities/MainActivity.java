@@ -1,27 +1,38 @@
 package xyz.tgprojects.buildmeabudget.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.TextSwitcher;
+import com.autofit.et.lib.AutoFitEditText;
+import java.util.LinkedList;
+import java.util.List;
 import xyz.tgprojects.buildmeabudget.BMABApplication;
 import xyz.tgprojects.buildmeabudget.R;
+import xyz.tgprojects.buildmeabudget.adapters.NumberAdapter;
 import xyz.tgprojects.buildmeabudget.models.Budget;
+import xyz.tgprojects.buildmeabudget.utils.FormatUtils;
 
-public class MainActivity extends AppCompatActivity {
-
-    public static final String ANNUAL_INCOME = "Annual Income";
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NumberAdapter.OnButtonClickedListener{
 
     Toolbar toolbar;
-    EditText incomeEditText;
+    AutoFitEditText incomeEditText;
     Budget budget;
-    SharedPreferences sharedPreferences;
     BMABApplication app;
+    FloatingActionButton build;
+
+    RecyclerView buttonRecyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    NumberAdapter numberAdapter;
+
+    Long actualIncome;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +41,28 @@ public class MainActivity extends AppCompatActivity {
         app = (BMABApplication) getApplication();
         budget = app.getBudget();
 
+        actualIncome = budget.getGrossIncome();
+
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        incomeEditText = (EditText) findViewById(R.id.main_activity_income_edittext);
-        if ( budget.getGrossIncome() != 0 ){
-            incomeEditText.setText(String.valueOf(budget.getGrossIncome()));
-        }
+        setUpToolbar();
 
-        setSupportActionBar(toolbar);
+        incomeEditText = (AutoFitEditText) findViewById(R.id.main_activity_income_edittext);
+        setUpEditText();
 
-        toolbar.setTitle(R.string.app_name);
+        build = (FloatingActionButton) findViewById(R.id.main_activity_build_button);
+        setUpBuildButton();
+
+        buttonRecyclerView = (RecyclerView) findViewById(R.id.number_recyclerview);
+        layoutManager = new GridLayoutManager(this, 3);
+        buttonRecyclerView.setLayoutManager(layoutManager);
+
+
+        List<String> values = getNumberList();
+
+        numberAdapter = new NumberAdapter(this, values, this);
+
+
+        buttonRecyclerView.setAdapter(numberAdapter);
     }
 
     @Override protected void onResume() {
@@ -54,19 +78,39 @@ public class MainActivity extends AppCompatActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if ( id == R.id.build_button ){
-            long income = getInputIncome();
-            if ( income != 0 ){
-                budget.setGrossIncome(income);
-                app.saveBudget(budget);
-                goToBudgetActivity();
-            }
-        }
         if ( id == R.id.reset_button ){
             resetBudget();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setUpToolbar(){
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+    }
+
+    public void setUpBuildButton(){
+        build.setOnClickListener(this);
+        build.setImageDrawable(getResources().getDrawable(R.drawable.dollar_sign));
+    }
+
+    public void setUpEditText(){
+        incomeEditText.setText(FormatUtils.dollarFormatter(budget.getGrossIncome()));
+        incomeEditText.setSingleLine(true);
+
+    }
+
+    public List<String> getNumberList(){
+        List<String> results = new LinkedList<>();
+        for ( int i=1; i<10; i++){
+            String a = Integer.toString(i);
+            results.add(a);
+        }
+        results.add("");
+        results.add("0");
+        results.add("");
+        return results;
     }
 
     private void goToBudgetActivity(){
@@ -75,11 +119,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private long getInputIncome(){
-        String income = incomeEditText.getText().toString();
+        String income = FormatUtils.stripClean(incomeEditText.getText().toString());
         if ( !income.isEmpty() ){
             return Long.valueOf(income);
-        } else {
-            Snackbar.make(findViewById(android.R.id.content), R.string.insert_value, Snackbar.LENGTH_SHORT).show();
         }
         return 0;
     }
@@ -89,5 +131,38 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.main_activity_build_button:
+                long income = getInputIncome();
+                if ( income != 0 ){
+                    budget.setGrossIncome(income);
+                    app.saveBudget(budget);
+                    goToBudgetActivity();
+                }
+        }
+    }
+
+    @Override public void onNumberButtonClicked(int position) {
+        String newCurrent;
+        String current = FormatUtils.stripClean(incomeEditText.getText().toString());
+        if ( position == 11 ){
+            newCurrent = FormatUtils.backspace(current);
+        } else if ( current.length() >= 6 ){
+            return;
+        } else {
+            Long id = numberAdapter.getItemId(position);
+            String value = Long.toString(id);
+            newCurrent = FormatUtils.textAppend(current, value);
+        }
+        if ( !newCurrent.isEmpty() ) {
+            long newValue = Long.valueOf(newCurrent);
+            String latestValue = FormatUtils.dollarFormatter(newValue);
+            incomeEditText.setText(latestValue);
+        } else {
+            incomeEditText.setText(getResources().getString(R.string.zero_dollars));
+        }
     }
 }

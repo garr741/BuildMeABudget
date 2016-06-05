@@ -3,10 +3,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".activities.MainActivity">
-    <item android:id="@+id/build_button"
-            android:orderInCategory="100"
-            android:title="@string/build"
-            app:showAsAction="ifRoom" />
     <item android:id="@+id/reset_button"
         android:orderInCategory="200"
         android:title="@string/reset"
