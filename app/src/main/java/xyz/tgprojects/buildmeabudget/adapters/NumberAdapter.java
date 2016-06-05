@@ -34,7 +34,7 @@ public class NumberAdapter extends RecyclerView.Adapter<NumberAdapter.ViewHolder
             holder.button.setClickable(false);
             holder.view.setVisibility(View.GONE);
         } else if ( position == 11 ){
-            holder.button.setText("bksp");
+            holder.button.setText("DEL");
             holder.button.setTextSize(16f);
             holder.view.setVisibility(View.GONE);
         } else {
