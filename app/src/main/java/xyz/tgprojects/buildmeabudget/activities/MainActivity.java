@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setUpEditText(){
         incomeEditText.setText(FormatUtils.dollarFormatter(budget.getGrossIncome()));
         incomeEditText.setSingleLine(true);
-
     }
 
     public List<String> getNumberList(){
